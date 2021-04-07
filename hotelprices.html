@@ -19,8 +19,8 @@
         integrity="sha512-XQoYMqMTK8LvdxXYG3nZ448hOEQiglfqkJs1NOQV44cWnUrBc8PkAOcXy20w0vlaXaVUearIOBhiXZ5V3ynxwA=="
         crossorigin=""></script>
 
-    <script src="premierPrices.js"></script>
-    <script src="travellodgePrices.js"></script>
+    <script src="premierprices.js"></script>
+    <script src="travellodgeprices.js"></script>
 
 
 </head>
@@ -93,16 +93,16 @@
             loc = travelodges[name];
             const marker = L.marker([loc[0], loc[1]], { icon: travelogeIcon })
             prices = {};
-            for(date in premierPrices) {
-                if (premierPrices[date][name]) {
-                    prices[date] = premierPrices[date][name];
+            for(date in travellodgePrices) {
+                if (travellodgePrices[date][name]) {
+                    prices[date] = travellodgePrices[date][name];
                 }
             }
 
             hotelsByIndex.push({
                 name: name,
                 loc: loc,
-                type: "premier",
+                type: "travellodge",
                 marker: marker,
                 prices: prices});
         }
