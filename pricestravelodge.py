@@ -49,7 +49,7 @@ for d in range(17):
             if not firstb:
                 f.write(",")
             firstb = False
-            f.write("'" + hotel + "':" + str(price))
+            f.write('"' + hotel + '":' + str(price))
         print(str(date) + " " + hotel)
     f.write("}")
 
