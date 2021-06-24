@@ -1,6 +1,7 @@
 import requests
 import json
 import datetime
+import time
 
 
 travelodges = {'Aberdeen Airport': [57.201186, -2.17338300000006], 'Aberdeen Bucksburn': [57.1789101490984, -2.17950202524662], 'Aberdeen Central Justice Mill Lane': [57.142308, -2.11056600000006], 'Aberdeen Central': [57.1451094731319, -2.10162495423901], 'Aldershot': [51.2492763775511, -0.768511891365051], 'Alfreton': [53.087246, -1.39467100000002], 'Alton Four Marks': [51.106387, -1.06098499999996], 'Altrincham Central': [53.385689, -2.35118699999998], 'Amesbury Stonehenge': [51.178617, -1.78098699999998], 'Andover': [51.210344, -1.52027850000002], 'Arundel Fontwell Park': [50.8556701839758, -0.649169683456421], 'Arundel Fontwell': [50.855916, -0.649112999999943], 'Ashbourne': [53.008586, -1.74802799999998], 'Ashford Town Centre': [51.1475081, 0.869126599999959], 'Ashford': [51.160988, 0.870859999999993], 'Ashton Under Lyne': [53.481288, -2.12370599999997], 'Aylesbury': [51.8145329272851, -0.808256864547729], 'Ayr': [55.4763669390598, -4.58884119987488], 'Bangor': [53.202893, -4.10699799999998], 'Barnsley': [53.54608, -1.44059800000002], 'Barrow in Furness': [54.123413, -3.23874599999999], 'Barton Mills': [52.337348, 0.536049999999932], 'Basildon': [51.585073, 0.464414000000033], 'Basildon Wickford': [51.626479, 0.55257800000004], 'Bath Central': [51.385063, -2.36104399999999], 'Bath City Centre (Bath Spa)': [51.3808032, -2.36238090000006], 'Bath Waterside': [51.377589, -2.353523], 'Beaconsfield Central': [51.602676, -0.636900999999966], 'Beckington': [51.269368, -2.28428499999995], 'Bedford Goldington Road': [52.142607, -0.426537999999937], 'Bedford': [52.150595, -0.473937999999976], 'Bedford Wyboston': [52.185708, -0.305184000000054], 'Berwick upon Tweed': [55.783676, -2.01575100000002], 'Bicester Cherwell Valley M40': [51.950104, -1.20092199999999], 'Bicester': [51.8997267604013, -1.15371465682983], 'Billingshurst Five Oaks': [51.037884, -0.441307000000052], 'Birmingham Airport': [52.449067, -1.75264700000002], 'Birmingham Castle Bromwich': [52.502467, -1.77482800000007], 'Birmingham Central Broadway Plaza': [52.473949, -1.92195300000003], 'Birmingham Central Bull Ring': [52.474213, -1.892515], 'Birmingham Central Moor Street': [52.479375, -1.89378199999999], 'Birmingham Central Newhall Street': [52.48355, -1.90711999999996], 'Birmingham Central': [52.476207, -1.91275799999994], 'Birmingham Dudley': [52.489526, -2.11811599999999], 'Birmingham Fort Dunlop': [52.5099, -1.81108100000006], 'Birmingham Frankley M5 Southbound': [52.430003, -2.01635499999998], 'Birmingham Halesowen': [52.452623, -2.04667599999993], 'Birmingham Hilton Park M6 Southbound': [52.642595, -2.05393900000001], 'Birmingham Kingswinford': [52.496956, -2.17542200000003], 'Birmingham Maypole': [52.4049662116731, -1.88571900129318], 'Birmingham Oldbury': [52.499912, -2.03043000000002], 'Birmingham Perry Barr': [52.526535, -1.89488400000005], 'Birmingham Sheldon': [52.451652, -1.78310599999998], 'Birmingham Streetly': [52.564983, -1.87888499999997], 'Birmingham Sutton Coldfield': [52.547987, -1.84019899999998], 'Birmingham Yardley': [52.4599413161071, -1.80378556251526], 'Blackburn M65': [53.712828, -2.47712200000001], 'Blackpool South Promenade': [53.793655, -3.05527200000006], 'Blackpool South Shore': [53.803700274128, -3.04829567670822], 'Blyth A1 (M)': [53.387133, -1.06058800000005], 'Bodmin Roche': [50.4204779070919, -4.83259024100391], 'Bolton Central River Street': [53.57574, -2.42123500000002], 'Borehamwood Studio Way': [51.662024, -0.260486000000014], 'Borehamwood': [51.6592573708218, -0.253207236528397], 'Bournemouth Cooper Dean': [50.747775, -1.82598899999994], 'Bournemouth Seafront': [50.716214, -1.88347999999996], 'Bournemouth': [50.72272, -1.85481359999994], 'Bracknell Central': [51.415448, -0.740170000000035], 'Bracknell': [51.419165, -0.785497999999961], 'Bradford Central': [53.797673, -1.75064599999996], 'Bradford': [53.797226, -1.70392300000003], 'Brentwood East Horndon': [51.579936, 0.354577000000063], 'Bridgend Pencoed': [51.52253, -3.48351400000001], 'Brighton Seafront': [50.821, -0.144587999999999], 'Brighton': [50.8378525002506, -0.14688715338707], 'Bristol Central Mitchell Lane': [51.450808, -2.58817099999999], 'Bristol Cribbs Causeway': [51.526221, -2.61535200000003], 'Bristol Emersons Green': [51.5058542078382, -2.48873199160996], 'Bristol Filton': [51.526073731853, -2.57250130176544], 'Bristol Severn View M48': [51.60464, -2.62149499999998], 'Bromsgrove Marlbrook': [52.365294, -2.04606699999999], 'Buckingham': [51.989887, -0.977550000000065], 'Burford Cotswolds': [51.80279, -1.63883799999996], 'Burton A38 Northbound': [52.758188, -1.70709999999997], 'Burton A38 Southbound': [52.7642954456225, -1.69709265232086], 'Bury': [53.577041, -2.274901], 'Caernarfon': [53.1445315, -4.27504820000001], 'Caerphilly': [51.571842, -3.24491499999999], 'Camberley Central': [51.336262, -0.745697000000064], 'Camberley': [51.334084, -0.767476999999985], 'Camborne Redruth': [50.225689, -5.27832250000006], 'Cambridge Central': [52.190215, 0.135952999999972], 'Cambridge Fourwentways': [52.126334, 0.223349999999982], 'Cambridge Newmarket Road': [52.208968, 0.14210300000002], 'Cambridge Orchard Park': [52.235343, 0.121622000000002], 'Cambridge Swavesey': [52.271007, -0.00586099999998169], 'Canterbury Chaucer Central': [51.277151, 1.08506999999997], 'Canterbury Dunkirk': [51.28896, 0.994844999999941], 'Canterbury Whitstable': [51.326333, 0.987235000000055], 'Cardiff Atlantic Wharf': [51.467617, -3.164492], 'Cardiff Central Queen Street': [51.481971, -3.17723799999999], 'Cardiff Central': [51.476672, -3.17688599999997], 'Cardiff Llanedeyrn': [51.514747, -3.14408500000002], 'Cardiff Whitchurch': [51.51792, -3.21626900000001], 'Carlisle Central': [54.892395, -2.92932700000006], 'Carlisle Todhills': [54.951671, -2.978747], 'Caterham Whyteleafe': [51.30218, -0.0750100000000202], 'Chatham Maritime': [51.3982433, 0.531986599999982], 'Cheshire Oaks': [53.2657772263134, -2.8873872756958], 'Chester Central Bridge Street': [53.1884604809224, -2.89053082466125], 'Chester Northop Hall': [53.197855, -3.09028599999999], 'Chester Warrington Road': [53.213047, -2.84817499999997], 'Chichester Emsworth': [50.853713, -0.945483999999965], 'Chippenham Leigh Delamere M4 Eastbound': [51.512265, -2.15811600000006], 'Chippenham Leigh Delamere M4 Westbound': [51.509197, -2.16071199999999], 'Christchurch': [50.7360604, -1.77833220000002], 'Cirencester': [51.724769, -1.94805599999995], 'Clacton-on-Sea Central': [51.789841, 1.15091499999994], 'Cockermouth': [54.654371, -3.37443400000006], 'Colchester Feering': [51.853034, 0.73148900000001], 'Colwyn Bay': [53.29413, -3.72163999999998], 'Coventry Binley': [52.402298, -1.44502699999998], 'Crawley': [51.1177819, -0.190107099999977], 'Crewe Barthomley': [53.068968, -2.33704599999999], 'Crewe': [53.092716, -2.41420800000003], 'Croydon Central': [51.374803, -0.0969749999999294], 'Darlington': [54.5196726004897, -1.51132822036743], 'Dartford': [51.451655, 0.265269999999987], 'Derby Chaddesden': [52.924017, -1.43734199999994], 'Derby Cricket Ground': [52.9269884196115, -1.46302700042725], 'Derby Pride Park': [52.9172579526267, -1.44561409950256], 'Devizes': [51.360192, -1.97833300000002], 'Doncaster Lakeside': [53.5061934916745, -1.10853552818298], 'Doncaster': [53.588432, -1.21541100000002], 'Dorking': [51.236275, -0.317407000000003], 'Dover': [51.1247146, 1.31595189999996], 'Droitwich': [52.28395, -2.12630000000001], 'Dudley Town Centre': [52.5186215, -2.07406600000002], 'Dumbarton': [55.935151, -4.51686399999994], 'Dumfries': [55.0679, -3.55364800000007], 'Dundee Central': [56.460819, -2.97817499999996], 'Dundee Strathmore Avenue': [56.475007, -2.98944000000006], 'Durham': [54.779138, -1.56283699999994], 'East Grinstead': [51.1262376, -0.0080815999999686], 'Eastbourne Willingdon Drove': [50.798154, 0.289823000000069], 'Edinburgh Airport Ratho Station': [55.938609, -3.39292899999998], 'Edinburgh Cameron Toll': [55.92747, -3.16737999999998], 'Edinburgh Central Queen Street': [55.954501, -3.199567], 'Edinburgh Central Rose Street': [55.952341, -3.19801099999995], 'Edinburgh Central': [55.949785, -3.18351800000005], 'Edinburgh Central Waterloo Place': [55.95376, -3.18796999999995], 'Edinburgh Dreghorn': [55.900594, -3.23310800000002], 'Edinburgh Haymarket': [55.947613, -3.22188800000004], 'Edinburgh Learmonth': [55.955513, -3.22001299999999], 'Egham': [51.4317436, -0.546776499999964], 'Elgin': [57.6402611, -3.25974489999999], 'Ely': [52.39236, 0.240872999999965], 'Epsom Central': [51.33437, -0.267780000000016], 'Exeter M5': [50.714328, -3.46477300000004], 'Falkirk': [55.997853, -3.72651099999996], 'Faringdon Oxfordshire': [51.650219, -1.57481], 'Farnborough Central': [51.2934, -0.755290000000059], 'Fleet': [51.293682, -0.80498399999999], 'Fort William': [56.816737, -5.11381800000004], 'Frimley': [51.325634, -0.733610999999996], 'Gateshead': [54.963321, -1.683539], 'Gatwick Airport Central': [51.165978, -0.178400000000011], 'Glasgow Airport': [55.8602153059764, -4.43216800689697], 'Glasgow Braehead': [55.8791511713945, -4.37406867742538], 'Glasgow Central': [55.866548, -4.26047700000004], 'Glasgow Govan': [55.8651243, -4.33457769999995], 'Glasgow Paisley Road': [55.85283, -4.27214700000002], 'Glasgow Queen Street': [55.8592532, -4.25165349999997], 'Glenrothes': [56.183926, -3.14642400000002], 'Glossop': [53.442014, -1.94940799999995], 'Gloucester': [51.858736, -2.25096299999996], 'Grantham A1': [52.948145, -0.678400000000011], 'Grantham Colsterworth': [52.802324, -0.609429999999975], 'Grantham South Witham': [52.7637202939486, -0.612431466579437], 'Great Yarmouth Acle': [52.637528, 1.55251399999997], 'Great Yarmouth': [52.556212, 1.71511199999998], 'Guildford': [51.246602, -0.581703999999945], 'Halifax': [53.729169, -1.86769200000003], 'Halkyn': [53.227856, -3.17076299999997],
@@ -16,16 +17,21 @@ codes = {}
 
 
 def search_name(name, date):
-    if name in codes:
-        code = codes[name]
-    else:
-        code = get_code(name)
-        codes[name] = code
+    for i in range(3):
+        try:
+            if name in codes:
+                code = codes[name]
+            else:
+                code = get_code(name)
+                codes[name] = code
 
-    if code is None:
-        return 9999
+            if code is None:
+                return 9999
 
-    return get_price(code, date)
+            return get_price(code, date)
+
+        except:
+            time.sleep(1)
 
 
 def get_code(name):
@@ -53,15 +59,13 @@ def get_price(code, date):
             return float(room["totalCost"]["amount"])
 
 
-search_name("Hereford City Centre (Old Market)", datetime.date(2021,7,28))
-
-start = datetime.date(2021, 5, 28)
+start = datetime.date(2021, 7, 25)
 
 f = open("/Users/dan/outpremier.txt", "w")
 
 f.write("{")
 first = True
-for d in range(17):
+for d in range(40):
     date = start + datetime.timedelta(days=d)
     print(str(date))
     if not first:
